@@ -1,34 +1,28 @@
-from parser import *
+from parser import parser_geral
 
-opc: int = 0
+opcao: int = 0
 
-print("| Opções:")
-print("| 1 - Conversor de bases")
-print("| 2 - Calculadora de Máximos")
-print("| 3 - Modo Quiz")
-print("| 4 - Sair")
-print("~ ---------------------------------------------")
+while opcao != 4:
 
-while opc != 4:
-    opc = int(input("Insira uma das opções: "))
-    if (opc > 4) or (opc < 1):
-        print("\n| Opção inexistente! As opções são:")
-        print("| 1 - Conversor de bases")
-        print("| 2 - Calculadora de Máximos")
-        print("| 3 - Modo Quiz")
-        print("| 4 - Sair")
-        print("~ ---------------------------------------------")
+    print("| Opções:")
+    print("| 1 - Conversor de bases")
+    print("| 2 - Calculadora de Máximos")
+    print("| 3 - Modo Quiz")
+    print("| 4 - Sair")
+    print("~ ---------------------------------------------")
+    
+    opcao = int(input("Insira uma das opções: "))
 
-    match opc:
+    match opcao:
         case 1:
-            print("Em desenvolvimento\n")
+            parser_geral()
+            print("")
         case 2:
             print("Em desenvolvimento\n")
         case 3:
             print("Em desenvolvimento\n")
-
         case 4:
             print("Saindo...")
-
-
+        case _:         
+            print("\n| Opção inexistente!")
 
