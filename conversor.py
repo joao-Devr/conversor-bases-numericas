@@ -1,4 +1,4 @@
-simbolos_permitidos = [
+tabela_hexadecimal = [
         '0', '1', '2', '3', '4', '5', 
         '6', '7', '8', '9', 'A', 'B', 
         'C', 'D', 'E', 'F'
@@ -11,6 +11,8 @@ tabela_binario = [
 
 
 def validar_valor(valor: str, base_origem:int) -> bool:
+    simbolos_permitidos = tabela_hexadecimal
+
     for simbolo_inserido in valor:
         existe_simbolo: bool = False
 
@@ -24,29 +26,42 @@ def validar_valor(valor: str, base_origem:int) -> bool:
 
     return True
    
-def conversao_binario_hexa(valor: str, base_origem:int):
-    if base_origem == 2:
-        binario_hexa(valor)
-
-def binario_hexa(valor: str) -> None:
+def binario_hexa(valor: str, base_origem: int) -> None:
     resposta: str = ""
+    trecho = 0
     
-    resto = len(valor) % 4
-    if resto != 0:
-        valor = ((4 - resto) * '0') + valor
+    if base_origem == 2: 
+        tabela_comparacao = tabela_binario
+        tabela_valor_respectivo = tabela_hexadecimal
+        
+        resto = len(valor) % 4
+        if resto != 0:
+            valor = ((4 - resto) * '0') + valor
+
+        trecho = len(valor)/4
+        soma_trecho = 4
+        multiplicador_trecho = 4
     
-    for i in range(0, round(len(valor)/4)):
-        trecho_valor = valor[4*i : 4+ (4*i)]
+    if base_origem == 16:
+        tabela_comparacao = tabela_hexadecimal
+        tabela_valor_respectivo = tabela_binario
+        
+        trecho = len(valor)
+        soma_trecho = 1
+        multiplicador_trecho = 1
+    
+    for i in range(0, round(trecho)):
+        trecho_valor = valor[multiplicador_trecho*i : soma_trecho + (multiplicador_trecho*i)]
 
-        for j in range(0, len(tabela_binario)):
-            
-            if trecho_valor == tabela_binario[j]:
-                resposta = resposta + simbolos_permitidos[j]
+        for j in range(0, len(tabela_comparacao)):
+             
+            if trecho_valor == tabela_comparacao[j]:
+                resposta = resposta + tabela_valor_respectivo[j]
 
-    print(resposta)
+    if base_origem == 16:
+        while(resposta[0] == '0'):
+            resposta = resposta[1:]
 
 
-
-conversao_binario_hexa('1001011110', 2)
 
 
