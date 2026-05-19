@@ -1,6 +1,18 @@
-simbolos_permitidos = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+tabela_hexadecimal = [
+        '0', '1', '2', '3', '4', '5', 
+        '6', '7', '8', '9', 'A', 'B', 
+        'C', 'D', 'E', 'F'
+        ]
+tabela_binario = [
+        '0000', '0001', '0010', '0011', '0100', 
+        '0101', '0110', '0111', '1000', '1001', 
+        '1010', '1011', '1100', '1101', '1110', '1111'
+        ]
+
 
 def validar_valor(valor: str, base_origem:int) -> bool:
+    simbolos_permitidos = tabela_hexadecimal
+
     for simbolo_inserido in valor:
         existe_simbolo: bool = False
 
@@ -13,6 +25,43 @@ def validar_valor(valor: str, base_origem:int) -> bool:
             return False
 
     return True
+   
+def binario_hexa(valor: str, base_origem: int) -> None:
+    resposta: str = ""
+    trecho = 0
     
+    if base_origem == 2: 
+        tabela_comparacao = tabela_binario
+        tabela_valor_respectivo = tabela_hexadecimal
+        
+        resto = len(valor) % 4
+        if resto != 0:
+            valor = ((4 - resto) * '0') + valor
+
+        trecho = len(valor)/4
+        soma_trecho = 4
+        multiplicador_trecho = 4
+    
+    if base_origem == 16:
+        tabela_comparacao = tabela_hexadecimal
+        tabela_valor_respectivo = tabela_binario
+        
+        trecho = len(valor)
+        soma_trecho = 1
+        multiplicador_trecho = 1
+    
+    for i in range(0, round(trecho)):
+        trecho_valor = valor[multiplicador_trecho*i : soma_trecho + (multiplicador_trecho*i)]
+
+        for j in range(0, len(tabela_comparacao)):
+             
+            if trecho_valor == tabela_comparacao[j]:
+                resposta = resposta + tabela_valor_respectivo[j]
+
+    if base_origem == 16:
+        while(resposta[0] == '0'):
+            resposta = resposta[1:]
+
+
 
 
