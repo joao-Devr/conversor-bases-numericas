@@ -25,8 +25,8 @@ def validar_valor(valor: str, base_origem:int) -> bool:
             return False
 
     return True
-   
-def binario_hexa(valor: str, base_origem: int) -> None:
+
+def binario_hexa(valor: str, base_origem: int) -> str:
     resposta: str = ""
     trecho = 0
     
@@ -62,6 +62,36 @@ def binario_hexa(valor: str, base_origem: int) -> None:
         while(resposta[0] == '0'):
             resposta = resposta[1:]
 
+    return resposta
 
+def decimal_universal(valor: str, base_destino: int) -> str:
+   
+    resposta = []
+    valor = int(valor)
 
+    while valor > 0:
+         
+         resto = valor % base_destino
 
+         resposta.append(tabela_hexadecimal[resto])
+
+         valor = valor// base_destino
+
+    resposta.reverse()
+    
+    return ''.join(resposta)
+
+def universal_decimal(valor: str, base_origem: int) -> int:
+    
+    i = 0
+    resultado = 0
+    
+    for char in reversed(valor):
+
+        valor = tabela_hexadecimal.index(char)
+
+        resultado += valor * (base_origem ** i)
+
+        i += 1
+        
+    return resultado

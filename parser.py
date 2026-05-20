@@ -19,6 +19,7 @@ def parser_geral() -> None:
                 print(f"O arquivo '{arquivo}.csv' não existe!")
 
 def parse_terminal() -> None:
+    from formatador import resposta_terminal
     calcular: bool = True
 
     while calcular:
@@ -32,23 +33,24 @@ def parse_terminal() -> None:
             base_origem = input("Insira a base de origem: ")
             valor = input("Insira o número: ")
             base_valor = validar_valor(valor, int(base_origem))
-
-        base_destion = input("Insira a base de destino: ")
+        base_destino = input("Insira a base de destino: ")
         
         desejo_repetir = input("Deseja inserir outro número(s/N)? ")
-        if desejo_repetir != 's':
+        if desejo_repetir == 'N':
+            resposta_terminal(base_origem, base_destino, valor)
             calcular = False
+        elif desejo_repetir == 's':
+            resposta_terminal(base_origem, base_destino, valor)
+            calcular = True        
     
 def parse_csv(arquivo: str) -> None:
     import csv
+    from formatador import resposta_csv
     with open(f"{arquivo}.csv", "r", newline="", encoding="utf-8") as arquivo:
 
         leitor = csv.DictReader(arquivo, delimiter=";")
  
         for linha in leitor:
-            valor        = linha["valor"]
-            base_origem  = linha["base_origem"]
-            base_destino = linha["base_destino"]
- 
-            print(f"Valor: {valor} | Base origem: {base_origem} | Base destino: {base_destino}")   
+            resposta_csv(linha["valor"], linha["base_origem"], linha["base_destino"])
+  
         arquivo.close()
