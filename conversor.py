@@ -27,7 +27,16 @@ def validar_valor(valor: str, base_origem:int) -> bool:
     return True
 
 def binario_ho(valor: str, base_destino: int) -> str:
-    
+
+    pos_virgula = valor.find('.')
+
+    antes_virgula = valor
+    depois_virgula = ''
+
+    if pos_virgula != -1:
+        antes_virgula = valor[:pos_virgula]
+        depois_virgula = valor[pos_virgula+1:]
+
     if base_destino == 8:
         numBits = 3
         tabela_temp = tabela_binario[:8]
@@ -37,19 +46,39 @@ def binario_ho(valor: str, base_destino: int) -> str:
         numBits = 4
         tabela_respectivo = tabela_binario
 
-    resto = len(valor) % numBits
-    if resto != 0:
-        valor = ((numBits - resto) * '0') + valor
+    resto_antes = len(antes_virgula) % numBits
+    if resto_antes != 0:
+        antes_virgula = ((numBits - resto_antes) * '0') + antes_virgula
 
-    quantidade_pedacos: int = len(valor)/numBits
+    resto_depois = len(depois_virgula) % numBits
+    if resto_depois != 0:
+        depois_virgula = depois_virgula + ((numBits - resto_depois) * '0')
+
+    quantidade_pedacos_antes: int = len(antes_virgula)/numBits
+    quantidade_pedacos_depois: int = len(depois_virgula)/numBits
     complemento_pulos_trecho: int = numBits
     pulos_trecho: int = numBits
     base_origem: int = 2
 
-   
-    return nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos, pulos_trecho, complemento_pulos_trecho, valor, base_origem)
+    resposta_antes_virgula = nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos_antes, pulos_trecho, complemento_pulos_trecho, antes_virgula, base_origem)
+
+    if pos_virgula != -1: 
+        resposta_depois_virgula = nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos_depois, pulos_trecho, complemento_pulos_trecho, depois_virgula, base_origem)
+
+        return resposta_antes_virgula + "." + resposta_depois_virgula
+    else:
+        return resposta_antes_virgula
 
 def ho_binario(valor:str, base_origem: int) -> str:
+
+    antes_virgula = valor
+    depois_virgula = ''
+
+    pos_virgula = valor.find(".")
+
+    if pos_virgula != -1:
+        antes_virgula = valor[:pos_virgula]
+        depois_virgula = valor[pos_virgula + 1:]
     
     if base_origem == 8:
         tabela_compara = tabela_hexadecimal[:8]
@@ -62,31 +91,45 @@ def ho_binario(valor:str, base_origem: int) -> str:
         tabela_compara = tabela_hexadecimal
         tabela_respectivo = tabela_binario
 
-    quantidade_pedacos: int = len(valor)
+    quantidade_pedacos_antes: int = len(antes_virgula)
+    quantidade_pedacos_depois: int = len(depois_virgula)
     pulos_trecho: int = 1
     complemento_pulos_trecho: int = 1
 
-    return nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos, pulos_trecho, complemento_pulos_trecho, valor, base_origem)
+    resposta_antes_virgula = nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos_antes, pulos_trecho, complemento_pulos_trecho, antes_virgula, base_origem)
+
+    if pos_virgula != -1:
+        resposta_depois_virgula = nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos_depois, pulos_trecho, complemento_pulos_trecho, depois_virgula, base_origem, True)
+
+        return resposta_antes_virgula + "." + resposta_depois_virgula
+
+    else:
+        return resposta_antes_virgula
+ 
+
 
 def ho(valor:str, base_origem: int, base_destino:int) -> str:
     resposta = ho_binario(valor, base_origem)
     resposta = binario_ho(resposta, base_destino)
     return resposta
 
-def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int, multiplicador_trecho: int, soma_trecho:int, valor:str, base_origem: int):
+def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int, multiplicador_trecho: int, soma_trecho:int, valor:str, base_origem: int, depois: bool = False):
     resposta: str = ""
 
     for i in range(0, round(trecho)):
         trecho_valor = valor[multiplicador_trecho*i : soma_trecho + (multiplicador_trecho*i)]
             
-        for j in range(0, len(tabela_comparacao)):
-                 
-            if trecho_valor == tabela_comparacao[j]:
-                resposta = resposta + tabela_valor_respectivo[j]
+        j = tabela_comparacao.index(trecho_valor)
+        resposta = resposta + tabela_valor_respectivo[j]
 
     if base_origem == 16 or base_origem == 8:
-        while(resposta[0] == '0'):
-            resposta = resposta[1:]
+        if depois == False:
+            while(resposta[0] == '0'):
+                resposta = resposta[1:]
+        
+        if depois == True:
+            while(resposta[-1] == '0'):
+                resposta = resposta[:-1]
 
     return resposta
 
@@ -122,4 +165,3 @@ def universal_decimal(valor: str, base_origem: int) -> int:
         
     return resultado
 
-print(binario_ho("1011", 16))
