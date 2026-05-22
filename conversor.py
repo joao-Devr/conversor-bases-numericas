@@ -11,12 +11,12 @@ tabela_binario = [
 
 
 def validar_valor(valor: str, base_origem:int) -> bool:
-    simbolos_permitidos = tabela_hexadecimal
+    simbolos_permitidos = tabela_hexadecimal[:base_origem]
     simbolos_permitidos.append('.')
 
     for simbolo_inserido in valor:
-        existe_simbolo: bool = False 
-        
+        existe_simbolo: bool = False
+
         if simbolo_inserido in simbolos_permitidos:
             existe_simbolo = True
 
@@ -165,4 +165,3 @@ def universal_decimal(valor: str, base_origem: int) -> int:
         
     return resultado
 
-validar_valor("10110.1", 2)
