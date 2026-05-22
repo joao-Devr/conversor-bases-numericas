@@ -1,4 +1,5 @@
 from conversor import *
+from formatador import resposta_terminal, resposta_csv
 
 def parser_geral() -> None:
     print("\n|Deseja passar os números via terminal ou arquivo '.csv'?")
@@ -19,10 +20,11 @@ def parser_geral() -> None:
                 print(f"O arquivo '{arquivo}.csv' não existe!")
 
 def parse_terminal() -> None:
-    from formatador import resposta_terminal
     calcular: bool = True
 
     while calcular:
+        
+        calcular = False
 
         print("\n|Ao inserir a base você deve inserir o número correspondente a base, ou seja:"
               "\n|2 - Binário\n|8- Octal\n|10 - Decimal\n|16 - Hexadecimal")
@@ -30,22 +32,26 @@ def parse_terminal() -> None:
         
         base_valor: bool = False
         while base_valor == False:
-            base_origem = input("Insira a base de origem: ")
             valor = input("Insira o número: ")
-            base_valor = validar_valor(valor, int(base_origem))
-        base_destino = input("Insira a base de destino: ")
+            base_origem = int(input("Insira a base de origem: "))
+            base_valor = validar_valor(valor, base_origem)
         
-        desejo_repetir = input("Deseja inserir outro número(s/N)? ")
-        if desejo_repetir == 'N':
-            resposta_terminal(base_origem, base_destino, valor)
-            calcular = False
-        elif desejo_repetir == 's':
-            resposta_terminal(base_origem, base_destino, valor)
-            calcular = True        
+        base_destino = int(input("Insira a base de destino: "))
+        
+        resposta_terminal(base_origem, base_destino, valor)
+        
+        desejo_repetir = input("Deseja inserir outro número(s/N)? ") 
+
+        # Repetimos apenas se for 's' pois a lógica aplicada 
+        # é parecida com o terminal, qualquer coisa diferente de 's' é declarada como 'N' 
+        if desejo_repetir == 's':
+            calcular = True
+
+    print('Saindo do modo Conversor de bases...')
+           
     
 def parse_csv(arquivo: str) -> None:
     import csv
-    from formatador import resposta_csv
     with open(f"{arquivo}.csv", "r", newline="", encoding="utf-8") as arquivo:
 
         leitor = csv.DictReader(arquivo, delimiter=";")
