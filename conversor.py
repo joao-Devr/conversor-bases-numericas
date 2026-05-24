@@ -26,16 +26,20 @@ def validar_valor(valor: str, base_origem:int) -> bool:
 
     return True
 
-def binario_ho(valor: str, base_destino: int) -> str:
+def binario_ho(valor: str, base_destino: int, passos: bool = False) -> str:
 
-    pos_virgula = valor.find('.')
+    pos_virgula: int = valor.find('.')
 
-    antes_virgula = valor
-    depois_virgula = ''
+    antes_virgula: str = valor
+    depois_virgula: str = ''
+    trecho_extra_pos_virgula: str = ''
 
     if pos_virgula != -1:
         antes_virgula = valor[:pos_virgula]
         depois_virgula = valor[pos_virgula+1:]
+
+        trecho_extra_pos_virgula = 'localizados antes da vírgula, '
+
 
     if base_destino == 8:
         numBits = 3
@@ -61,25 +65,33 @@ def binario_ho(valor: str, base_destino: int) -> str:
     pulos_trecho: int = numBits
     base_origem: int = 2
 
-    resposta_antes_virgula = nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos_antes, pulos_trecho, complemento_pulos_trecho, antes_virgula, base_origem)
+    if passos == True:
+        print(f"Para converter os valores {trecho_extra_pos_virgula}fazemos o seguinte processo: ")
+    resposta_antes_virgula = nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos_antes, pulos_trecho, complemento_pulos_trecho, antes_virgula, base_origem, base_destino, passos)
 
-    if pos_virgula != -1: 
-        resposta_depois_virgula = nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos_depois, pulos_trecho, complemento_pulos_trecho, depois_virgula, base_origem)
+    if pos_virgula != -1:
+        if passos == True:
+            print("")
+            print("~ ---------------------------------------------")
+            print("Para os números depois da vírgula fazemos o mesmo processo: ")
+        resposta_depois_virgula = nucleo_conversao_BHO(tabela_respectivo, tabela_hexadecimal, quantidade_pedacos_depois, pulos_trecho, complemento_pulos_trecho, depois_virgula, base_origem, base_destino, passos)
 
         return resposta_antes_virgula + "." + resposta_depois_virgula
     else:
         return resposta_antes_virgula
 
-def ho_binario(valor:str, base_origem: int) -> str:
+def ho_binario(valor:str, base_origem: int, passos: bool = False) -> str:
 
     antes_virgula = valor
     depois_virgula = ''
+    trecho_extra_pos_virgula: str = ''
 
     pos_virgula = valor.find(".")
 
     if pos_virgula != -1:
         antes_virgula = valor[:pos_virgula]
         depois_virgula = valor[pos_virgula + 1:]
+        trecho_extra_pos_virgula = 'localizados antes da vírgula, '
     
     if base_origem == 8:
         tabela_compara = tabela_hexadecimal[:8]
@@ -96,11 +108,19 @@ def ho_binario(valor:str, base_origem: int) -> str:
     quantidade_pedacos_depois: int = len(depois_virgula)
     pulos_trecho: int = 1
     complemento_pulos_trecho: int = 1
+    base_destino: int = 2 
 
-    resposta_antes_virgula = nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos_antes, pulos_trecho, complemento_pulos_trecho, antes_virgula, base_origem)
+    if passos == True:
+        print(f"Para converter os valores {trecho_extra_pos_virgula}fazemos o seguinte processo: ")
+    resposta_antes_virgula = nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos_antes, pulos_trecho, complemento_pulos_trecho, antes_virgula, base_origem, base_destino, passos)
 
     if pos_virgula != -1:
-        resposta_depois_virgula = nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos_depois, pulos_trecho, complemento_pulos_trecho, depois_virgula, base_origem, True)
+        if passos == True:
+            print("")
+            print("~ ---------------------------------------------")
+            print("Para os números depois da vírgula fazemos o mesmo processo: ")
+         
+        resposta_depois_virgula = nucleo_conversao_BHO(tabela_compara, tabela_respectivo, quantidade_pedacos_depois, pulos_trecho, complemento_pulos_trecho, depois_virgula, base_origem, base_destino, passos, True)
 
         return resposta_antes_virgula + "." + resposta_depois_virgula
 
@@ -109,21 +129,37 @@ def ho_binario(valor:str, base_origem: int) -> str:
  
 
 
-def ho(valor:str, base_origem: int, base_destino:int) -> str:
-    resposta = ho_binario(valor, base_origem)
-    resposta = binario_ho(resposta, base_destino)
+def ho(valor:str, base_origem: int, base_destino:int, passos: bool = False) -> str:
+    if passos == True:
+        print(f"Primero convertemos da base {base_origem} para base 2:")
+    resposta = ho_binario(valor, base_origem, passos)
+    if passos == True:
+        print("- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(f"Depois convertemos a {resposta}, da base 2, para base {base_destino}")
+    resposta = binario_ho(resposta, base_destino, passos)
     return resposta
 
-def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int, multiplicador_trecho: int, soma_trecho:int, valor:str, base_origem: int, depois: bool = False):
+def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int, multiplicador_trecho: int, soma_trecho:int, valor:str, base_origem: int, base_destino: int, passos: bool, depois: bool = False):
     resposta: str = ""
+    
+    if passos == True:
+        print(f"Olhando da esquerda para a direita agrupamos {soma_trecho} caracteres da base {base_origem}, e olhamos o correspondente para esses caracteres na base {base_destino}.")
+        print("- ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~")
 
     for i in range(0, round(trecho)):
         trecho_valor = valor[multiplicador_trecho*i : soma_trecho + (multiplicador_trecho*i)]
             
         j = tabela_comparacao.index(trecho_valor)
         resposta = resposta + tabela_valor_respectivo[j]
+        
+        if passos == True:
+            print(f"> '{trecho_valor}' na base {base_origem} -> '{tabela_valor_respectivo[j]}' na base {base_destino}")
 
-    if base_origem == 16 or base_origem == 8:
+    if passos == True:
+        print(f"De baixo pra cima, inserindo-os da direita pra esquerda, temos: {resposta}")
+
+
+    if base_destino == 2:
         if depois == False:
             while(resposta[0] == '0'):
                 resposta = resposta[1:]
@@ -132,11 +168,14 @@ def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int
             while(resposta[-1] == '0'):
                 resposta = resposta[:-1]
 
+        if passos == True:
+            print(f"Removendo os '0' em excesso ficamos com: {resposta}")
+
     return resposta
 
 
 
-def decimal_universal(valor: str, base_destino: int) -> str:
+def decimal_universal(valor: str, base_destino: int, passos: bool = False) -> str:
         
         resposta_antes = ''
         resposta_depois = ''
@@ -152,7 +191,7 @@ def decimal_universal(valor: str, base_destino: int) -> str:
          parte_str = valor[virgula+1:]
          depois_virgula = int(parte_str) / (10 ** len(parte_str)) 
           
-         while depois_virgula > 0 and len(resposta_depois) <= 10:
+         while depois_virgula > 0 and len(resposta_depois) <= 16:
 
                 depois_virgula *= base_destino
     
@@ -182,7 +221,7 @@ def decimal_universal(valor: str, base_destino: int) -> str:
 
         return resposta
 
-def universal_decimal(valor: str, base_origem: int) -> float:
+def universal_decimal(valor: str, base_origem: int, passos: bool = False) -> float:
 
     virgula = valor.find('.')
 

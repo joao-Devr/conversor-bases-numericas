@@ -11,16 +11,32 @@ def parser_geral() -> None:
 
     match opcao:
         case 1:
-            parse_terminal()
+            parser_terminal()
         case 2:
             arquivo: str = input("Insira o nome do Arquivo: ")
             try:
-                parse_csv(arquivo)
+                parser_csv(arquivo)
             except FileNotFoundError:
                 print(f"O arquivo '{arquivo}.csv' não existe!")
 
-def parse_terminal() -> None:
+def parser_calculadora() -> None:
+    
+    print("")
+    print("| Calculadora de máximos, apartir do número de bits.")
+    print("~ ---------------------------------------------")
+
+    nBits: int = int(input("Insira o número de bits: "))
+    print("")
+
+    calculadora(nBits)
+
+def parser_terminal() -> None:
     calcular: bool = True
+
+    desejo_passos: str = input("Deseja que seja mostrado um passo a passo da solução(s/N)?")
+    passos: bool = False
+    if desejo_passos == 's':
+        passos = True
 
     while calcular:
         
@@ -37,8 +53,9 @@ def parse_terminal() -> None:
             base_valor = validar_valor(valor, base_origem)
         
         base_destino = int(input("Insira a base de destino: "))
+        print("")
         
-        resposta_terminal(base_origem, base_destino, valor)
+        resposta_terminal(base_origem, base_destino, valor, passos)
         
         desejo_repetir = input("Deseja inserir outro número(s/N)? ") 
 
@@ -50,7 +67,7 @@ def parse_terminal() -> None:
     print('Saindo do modo Conversor de bases...')
            
     
-def parse_csv(arquivo: str) -> None:
+def parser_csv(arquivo: str) -> None:
     import csv
     with open(f"{arquivo}.csv", "r", newline="", encoding="utf-8") as arquivo:
 
@@ -61,9 +78,4 @@ def parse_csv(arquivo: str) -> None:
   
         arquivo.close()
 
-def parser_calculadora() -> None:
-    print("Insira o numero de Bits que deseja calcular o o maior valor representável nas 4 bases: ")
 
-    nBits = int(input("Número de Bits: "))
-
-    calculadora(nBits)
