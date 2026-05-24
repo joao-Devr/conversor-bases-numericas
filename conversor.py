@@ -47,6 +47,7 @@ def binario_ho(valor: str, base_destino: int) -> str:
         tabela_respectivo = tabela_binario
 
     resto_antes = len(antes_virgula) % numBits
+    
     if resto_antes != 0:
         antes_virgula = ((numBits - resto_antes) * '0') + antes_virgula
 
@@ -136,32 +137,92 @@ def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int
 
 
 def decimal_universal(valor: str, base_destino: int) -> str:
-   
-    resposta = ''
-    valor = int(valor)
-
-    while valor > 0:
-         
-         resto = valor % base_destino
-
-         resposta = tabela_hexadecimal[resto] + resposta
-
-         valor = int(valor / base_destino)
-
-    return resposta
-
-def universal_decimal(valor: str, base_origem: int) -> int:
-    
-    i = 0
-    resultado = 0
-    
-    for char in reversed(valor):
-
-        valor = tabela_hexadecimal.index(char)
-
-        resultado += valor * (base_origem ** i)
-
-        i += 1
         
+        resposta_antes = ''
+        resposta_depois = ''
+        resposta = ''
+
+        virgula = valor.find('.')
+        antes_virgula = 0
+        depois_virgula = 0
+
+        if virgula != -1:
+         antes_virgula = int(valor[:virgula])
+         
+         parte_str = valor[virgula+1:]
+         depois_virgula = int(parte_str) / (10 ** len(parte_str)) 
+          
+         while depois_virgula > 0 and len(resposta_depois) <= 10:
+
+                depois_virgula *= base_destino
+    
+                numero_virgula = int(depois_virgula)
+    
+                resposta_depois += tabela_hexadecimal[numero_virgula]
+    
+                depois_virgula -= numero_virgula
+        else:
+            antes_virgula = int(valor)
+                
+        while antes_virgula > 0:
+         
+         resto = antes_virgula % base_destino
+        
+         resposta_antes = tabela_hexadecimal[resto] + resposta_antes
+
+         antes_virgula = int(antes_virgula / base_destino)
+
+        
+    
+
+        if resposta_depois == '':
+            resposta = resposta_antes
+        else:
+             resposta = resposta_antes + "." + resposta_depois
+
+        return resposta
+
+def universal_decimal(valor: str, base_origem: int) -> float:
+
+    virgula = valor.find('.')
+
+    if virgula != -1:
+
+        antes_virgula = valor[:virgula]
+        depois_virgula = valor[virgula+1:]
+
+    else:
+
+        antes_virgula = valor
+        depois_virgula = ''
+
+    resultado = 0
+
+    for i, char in enumerate(reversed(antes_virgula)):
+
+        digito = tabela_hexadecimal.index(char.upper())
+
+        resultado += digito * (base_origem ** i)
+
+
+    for i, char in enumerate(depois_virgula):
+
+        digito = tabela_hexadecimal.index(char.upper())
+
+        resultado += digito * (base_origem ** -(i + 1))
+
     return resultado
 
+
+def calculadora(nBits: int) -> None:
+
+    max_ = (2 ** nBits) - 1
+    max_decimal = str(max_)
+    max_binario = decimal_universal(str(max_), 2)
+    max_octal = decimal_universal(str(max_), 8)
+    max_hexadecimal = decimal_universal(str(max_), 16)
+
+    print(f"Binário: {max_binario}")
+    print(f"Decimal: {max_decimal}")
+    print(f"Octal: {max_octal}")
+    print(f"Hexadecimal: {max_hexadecimal}")

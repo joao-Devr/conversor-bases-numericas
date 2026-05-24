@@ -60,3 +60,10 @@ def parse_csv(arquivo: str) -> None:
             resposta_csv(linha["valor"], linha["base_origem"], linha["base_destino"])
   
         arquivo.close()
+
+def parser_calculadora() -> None:
+    print("Insira o numero de Bits que deseja calcular o o maior valor representável nas 4 bases: ")
+
+    nBits = int(input("Número de Bits: "))
+
+    calculadora(nBits)

@@ -1,4 +1,4 @@
-from parser import parser_geral
+from parser import parser_geral, parser_calculadora
 
 opcao: int = 0
 
@@ -18,7 +18,8 @@ while opcao != 4:
             parser_geral()
             print("")
         case 2:
-            print("Em desenvolvimento\n")
+            parser_calculadora()
+            print("")
         case 3:
             print("Em desenvolvimento\n")
         case 4:
