@@ -182,17 +182,33 @@ def decimal_universal(valor: str, base_destino: int) -> str:
 
         return resposta
 
-def universal_decimal(valor: str, base_origem: int) -> int:
-    
-    i = 0
+def universal_decimal(valor: str, base_origem: int) -> float:
+
+    virgula = valor.find('.')
+
+    if virgula != -1:
+
+        antes_virgula = valor[:virgula]
+        depois_virgula = valor[virgula+1:]
+
+    else:
+
+        antes_virgula = valor
+        depois_virgula = ''
+
     resultado = 0
-    
-    for char in reversed(valor):
 
-        valor = tabela_hexadecimal.index(char)
+    for i, char in enumerate(reversed(antes_virgula)):
 
-        resultado += valor * (base_origem ** i)
+        digito = tabela_hexadecimal.index(char.upper())
 
-        i += 1
+        resultado += digito * (base_origem ** i)
         
+
+    for i, char in enumerate(depois_virgula):
+
+        digito = tabela_hexadecimal.index(char.upper())
+
+        resultado += digito * (base_origem ** -(i + 1))
+
     return resultado
