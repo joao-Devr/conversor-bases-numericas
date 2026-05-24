@@ -47,6 +47,7 @@ def binario_ho(valor: str, base_destino: int) -> str:
         tabela_respectivo = tabela_binario
 
     resto_antes = len(antes_virgula) % numBits
+    
     if resto_antes != 0:
         antes_virgula = ((numBits - resto_antes) * '0') + antes_virgula
 
@@ -136,19 +137,50 @@ def nucleo_conversao_BHO(tabela_comparacao, tabela_valor_respectivo, trecho: int
 
 
 def decimal_universal(valor: str, base_destino: int) -> str:
-   
-    resposta = ''
-    valor = int(valor)
+        
+        resposta_antes = ''
+        resposta_depois = ''
+        resposta = ''
 
-    while valor > 0:
+        virgula = valor.find('.')
+        antes_virgula = 0
+        depois_virgula = 0
+
+        if virgula != -1:
+         antes_virgula = int(valor[:virgula])
          
-         resto = valor % base_destino
+         parte_str = valor[virgula+1:]
+         depois_virgula = int(parte_str) / (10 ** len(parte_str)) 
+          
+         while depois_virgula > 0 and len(resposta_depois) <= 10:
 
-         resposta = tabela_hexadecimal[resto] + resposta
+                depois_virgula *= base_destino
+    
+                numero_virgula = int(depois_virgula)
+    
+                resposta_depois += tabela_hexadecimal[numero_virgula]
+    
+                depois_virgula -= numero_virgula
+        else:
+            antes_virgula = int(valor)
+                
+        while antes_virgula > 0:
+         
+         resto = antes_virgula % base_destino
+        
+         resposta_antes = tabela_hexadecimal[resto] + resposta_antes
 
-         valor = int(valor / base_destino)
+         antes_virgula = int(antes_virgula / base_destino)
 
-    return resposta
+        
+    
+
+        if resposta_depois == '':
+            resposta = resposta_antes
+        else:
+             resposta = resposta_antes + "." + resposta_depois
+
+        return resposta
 
 def universal_decimal(valor: str, base_origem: int) -> int:
     
@@ -164,4 +196,3 @@ def universal_decimal(valor: str, base_origem: int) -> int:
         i += 1
         
     return resultado
-
