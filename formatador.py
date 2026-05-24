@@ -48,4 +48,11 @@ def resposta_csv( valor: str, base_origem: str, base_destino: str) -> None:
         escritor = csv.writer(arquivo, delimiter=";")
 
         escritor.writerow([valor, base_origem, base_destino, resposta])
+    arquivo.close()
+    print("Resposta salva no arquivo 'respostas.csv' \n \n")
+
+
+def resposta_calculadora(nBits: int) -> None:
     
+    print(f"Maior valor representável em {nBits} bits: ")
+    calculadora(nBits)

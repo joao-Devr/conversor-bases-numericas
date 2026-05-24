@@ -203,7 +203,7 @@ def universal_decimal(valor: str, base_origem: int) -> float:
         digito = tabela_hexadecimal.index(char.upper())
 
         resultado += digito * (base_origem ** i)
-        
+
 
     for i, char in enumerate(depois_virgula):
 
@@ -212,3 +212,17 @@ def universal_decimal(valor: str, base_origem: int) -> float:
         resultado += digito * (base_origem ** -(i + 1))
 
     return resultado
+
+
+def calculadora(nBits: int) -> None:
+
+    max_ = (2 ** nBits) - 1
+    max_decimal = str(max_)
+    max_binario = decimal_universal(str(max_), 2)
+    max_octal = decimal_universal(str(max_), 8)
+    max_hexadecimal = decimal_universal(str(max_), 16)
+
+    print(f"Binário: {max_binario}")
+    print(f"Decimal: {max_decimal}")
+    print(f"Octal: {max_octal}")
+    print(f"Hexadecimal: {max_hexadecimal}")
