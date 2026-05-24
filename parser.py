@@ -19,7 +19,15 @@ def parser_geral() -> None:
             except FileNotFoundError:
                 print(f"O arquivo '{arquivo}.csv' não existe!")
 
-def parse_terminal() -> None:
+def parser_calculadora() -> None:
+
+    print("Insira o numero de Bits que deseja calcular o o maior valor representável nas 4 bases: ")
+
+    nBits: int = int(input("Número de Bits: "))
+
+    calculadora(nBits)
+
+def parser_terminal() -> None:
     calcular: bool = True
 
     while calcular:
@@ -50,7 +58,7 @@ def parse_terminal() -> None:
     print('Saindo do modo Conversor de bases...')
            
     
-def parse_csv(arquivo: str) -> None:
+def parser_csv(arquivo: str) -> None:
     import csv
     with open(f"{arquivo}.csv", "r", newline="", encoding="utf-8") as arquivo:
 
@@ -61,9 +69,4 @@ def parse_csv(arquivo: str) -> None:
   
         arquivo.close()
 
-def parser_calculadora() -> None:
-    print("Insira o numero de Bits que deseja calcular o o maior valor representável nas 4 bases: ")
 
-    nBits = int(input("Número de Bits: "))
-
-    calculadora(nBits)
