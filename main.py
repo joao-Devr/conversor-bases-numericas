@@ -21,7 +21,8 @@ while opcao != 4:
             parser_calculadora()
             print("")
         case 3:
-            print("Em desenvolvimento\n")
+            parser_quiz()
+            print("")
         case 4:
             print("Saindo...")
         case _:         

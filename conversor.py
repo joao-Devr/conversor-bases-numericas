@@ -210,8 +210,6 @@ def decimal_universal(valor: str, base_destino: int, passos: bool = False) -> st
          resposta_antes = tabela_hexadecimal[resto] + resposta_antes
 
          antes_virgula = int(antes_virgula / base_destino)
-
-        
     
 
         if resposta_depois == '':
@@ -219,7 +217,7 @@ def decimal_universal(valor: str, base_destino: int, passos: bool = False) -> st
         else:
              resposta = resposta_antes + "." + resposta_depois
 
-        return resposta
+        return str(resposta)
 
 def universal_decimal(valor: str, base_origem: int, passos: bool = False) -> float:
 
@@ -250,7 +248,7 @@ def universal_decimal(valor: str, base_origem: int, passos: bool = False) -> flo
 
         resultado += digito * (base_origem ** -(i + 1))
 
-    return resultado
+    return str(resultado)
 
 
 def calculadora(nBits: int) -> None:
