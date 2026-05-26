@@ -25,8 +25,8 @@ def resposta_terminal(base_origem: int, base_destino: int, valor: str, passos: b
 
     else:
         resposta = ho(valor, base_origem, base_destino, passos)
-
-    print(f"Resposta final: {resposta} \n \n")
+    
+    return resposta
 
 def resposta_csv(valor: str, base_origem: str, base_destino: str) -> None:
     
