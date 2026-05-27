@@ -33,7 +33,7 @@ def parser_calculadora() -> None:
 def parser_quiz() -> None:
     print("\n| Bem-Vindo ao modo Quiz!")
     print("| Antes de começar uma breve explicação:")
-    print("| No modo quiz, você seleciona uma dificuldade e responde 5 questões com aquela dificuldade,")
+    print("| No modo quiz, você seleciona uma dificuldade e quantas questões quer fazer, com aquela dificuldade,")
     print("| sendo que todas as questões envolvem conversão para diferentes bases, as dificuldades são em relação:")
     print("| - Ao número de tentativas, quanto mais dificil, menos tentativas")
     print("| - A quantidade de bits para o numero, ou seja, a faixa de numeros que pode ser representados com aqueles bits.")
@@ -48,6 +48,11 @@ def parser_quiz() -> None:
     print("~ ---------------------------------------------")
     
     dificuldade: int = int(input("Insira a dificuldade: "))
+    num_questoes: int = int(input("Insira o número de questões: "))
+    
+    pontuacao = quiz_start(dificuldade, num_questoes)
+
+    print(f"Sua pontuação total foi: {pontuacao}/{num_questoes}")
 
 
 def parser_terminal() -> None:

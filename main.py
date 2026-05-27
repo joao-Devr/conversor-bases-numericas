@@ -1,4 +1,4 @@
-from parser import parser_geral, parser_calculadora
+from parser import parser_geral, parser_calculadora, parser_quiz
 
 opcao: int = 0
 
