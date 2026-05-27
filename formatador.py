@@ -1,14 +1,16 @@
 from conversor import *
 
+
 def resposta_calculadora(nBits: int) -> None:
-    
+
     print(f"Maior valor representável em {nBits} bits: ")
     calculadora(nBits)
 
-def resposta_terminal(base_origem: int, base_destino: int, valor: str, passos: bool) -> None: 
-    
+
+def resposta_terminal(base_origem: int, base_destino: int, valor: str, passos: bool) -> str: 
+
     if base_origem == 10:
-        
+
         resposta = decimal_universal(valor, base_destino, passos)
 
     elif base_destino == 10:
@@ -25,11 +27,12 @@ def resposta_terminal(base_origem: int, base_destino: int, valor: str, passos: b
 
     else:
         resposta = ho(valor, base_origem, base_destino, passos)
-    
+
     return resposta
 
+
 def resposta_csv(valor: str, base_origem: str, base_destino: str) -> None:
-    
+
     import csv
     base_origem = int(base_origem)
     base_destino = int(base_destino)
@@ -53,6 +56,5 @@ def resposta_csv(valor: str, base_origem: str, base_destino: str) -> None:
 
         escritor = csv.writer(arquivo, delimiter=";")
 
-        escritor.writerow([valor, base_origem, base_destino, resposta])
+        escritor.writerow([valor, base_origem, resposta, base_destino])
     arquivo.close()
-    print("Resposta salva no arquivo 'respostas.csv' \n \n")
