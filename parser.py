@@ -112,4 +112,3 @@ def parser_csv(arquivo: str) -> None:
             resposta_csv(linha["valor"], linha["base_origem"], linha["base_destino"])
 
         arquivo.close()
-
