@@ -169,7 +169,7 @@ def nucleo_conversao_BHO(
         print("- ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~")
 
     for i in range(0, round(trecho)):
-        trecho_valor = valor_converter[trecho_incrementador*i : trecho_incrementador + (multiplicador_trecho*i)]
+        trecho_valor = valor_converter[trecho_incrementador*i : trecho_incrementador + (trecho_incrementador*i)]
 
         j = tabela_comparacao.index(trecho_valor)
         valor_convertido = valor_convertido + tabela_valor_respectivo[j]
