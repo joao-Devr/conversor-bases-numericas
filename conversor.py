@@ -210,7 +210,7 @@ def decimal_universal(valor_converter: str, base_destino: int, passos: bool = Fa
         antes_virgula = 0
         depois_virgula = 0
 
-        if passos == True:
+        if passos is True:
             print(f"Para converter o valor {valor_converter} fazemos o seguinte processo: ")
             print("~ ---------------------------------------------")
 
@@ -219,7 +219,7 @@ def decimal_universal(valor_converter: str, base_destino: int, passos: bool = Fa
 
          parte_str = valor_converter[virgula+1:]
          depois_virgula = int(parte_str) / (10 ** len(parte_str)) 
-         if passos == True:
+         if passos is True:
             print(f"Primeiro separamos a parte antes e depois da vírgula, para convertermos cada uma delas separadamente: ")
             print("")
             print(f"Parte antes da vírgula: {antes_virgula} | Parte depois da vírgula: {depois_virgula}")
@@ -243,7 +243,7 @@ def decimal_universal(valor_converter: str, base_destino: int, passos: bool = Fa
 
                 depois_virgula -= numero_virgula
 
-         if passos == True:
+         if passos is True:
              print("")
              print(f" A parte depois da vírgula é convertida para: {valor_convertido_depois}")
              print("")
@@ -252,7 +252,7 @@ def decimal_universal(valor_converter: str, base_destino: int, passos: bool = Fa
             antes_virgula = int(valor_converter)
 
 
-        if passos == True:
+        if passos is True:
            
             print("")
             print(f"Dividimos o número pela base destino, e guardamos o resto, até que o número seja 0: ")
@@ -261,7 +261,7 @@ def decimal_universal(valor_converter: str, base_destino: int, passos: bool = Fa
         while antes_virgula > 0:
          
          resto = antes_virgula % base_destino
-         if passos == True:
+         if passos is True:
             print("")
             print(f"  {antes_virgula} / {base_destino} = {antes_virgula / base_destino} -> Resto: {resto}")
             print("")
@@ -272,7 +272,7 @@ def decimal_universal(valor_converter: str, base_destino: int, passos: bool = Fa
 
          antes_virgula = int(antes_virgula / base_destino)
     
-        if passos == True:
+        if passos is True:
             print("")
             print(f" O número convertido é: {valor_convertido_antes}")
             print("")
@@ -291,14 +291,14 @@ def universal_decimal(valor_converter: str, base_origem: int, passos: bool = Fal
     virgula = valor_converter.find('.')
     valor_convertido = 0
 
-    if passos == True:
+    if passos is True:
             print(f"Para converter o valor {valor_converter} fazemos o seguinte processo: ")
             
        
     if virgula != -1:
         antes_virgula = valor_converter[:virgula]
         depois_virgula = valor_converter[virgula+1:]
-        if passos == True:
+        if passos is True:
          print("~ ---------------------------------------------")
          print(f"Primeiro separamos a parte antes e depois da vírgula, para convertermos cada uma delas separadamente: ")
          print("")
@@ -309,11 +309,11 @@ def universal_decimal(valor_converter: str, base_origem: int, passos: bool = Fal
         for i, char in enumerate(depois_virgula):
 
          digito = tabela_hexadecimal.index(char.upper())
-         if passos == True:
+         if passos is True:
              print(f"  '{char}' -> {digito} * ({base_origem} ** {-(i + 1)}) = {digito * (base_origem ** -(i + 1))}")
          valor_convertido += digito * (base_origem ** -(i + 1))
 
-        if passos == True:
+        if passos is True:
          print("O resultado da parte depois da vírgula é: " + str(valor_convertido - int(valor_convertido)))
          print("")      
         
@@ -321,18 +321,18 @@ def universal_decimal(valor_converter: str, base_origem: int, passos: bool = Fal
 
         antes_virgula = valor_converter
         depois_virgula = ''
-    if passos == True:
+    if passos is True:
         print("~ ---------------------------------------------")
         print(f"Convertemos {antes_virgula}, multiplicando cada dígito pelo valor da base elevado a sua posição, começando do 0: ")
   
     for i, char in enumerate(reversed(antes_virgula)):
 
         digito = tabela_hexadecimal.index(char.upper())
-        if passos == True:
+        if passos is True:
             print(f"  '{char}' -> {digito} * ({base_origem} ** {i}) = {digito * (base_origem ** i)}")
         valor_convertido += digito * (base_origem ** i)
 
-    if passos == True:
+    if passos is True:
          
          print("")
          print(f"O resultado é: {valor_convertido - (valor_convertido - int(valor_convertido))}")

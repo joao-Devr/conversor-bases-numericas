@@ -2,18 +2,19 @@ import random
 from conversor import *
 from formatador import resposta_terminal
 
+
 def gera_numero(tamanho: int, permitidos, depois_virgula: bool) -> str:
-    
+
     numero_pergunta: str = ''
 
     for i in range(0, tamanho):
         numero_pergunta = random.choice(permitidos) + numero_pergunta 
-    
+
     indice_remover: int = 0
     inicio = 1
     fim = len(numero_pergunta)
 
-    if depois_virgula == True:
+    if depois_virgula is True:
         indice_remover = -1
         inicio = 0
         fim = -1
@@ -23,13 +24,13 @@ def gera_numero(tamanho: int, permitidos, depois_virgula: bool) -> str:
         if numero_pergunta == '':
             numero_pergunta = gera_numero(tamanho, permitidos, depois_virgula)
 
-    
     return numero_pergunta
 
+
 def quiz_questao(dificuldade: int, base_anterior: int):
-    
+
     tamanho: int = 3
-    
+
     # Não precisa de elif, porque ele vai aumentando conforme a dificuldade aumenta.
     if dificuldade == 2:
         tamanho = tamanho + 1
@@ -55,17 +56,17 @@ def quiz_questao(dificuldade: int, base_anterior: int):
     base_origem: int = 0
     base_origem: int = random.choice(bases)
     bases.remove(base_origem)
-    
-    base_destino: int = 0 
+
+    base_destino: int = 0
     base_destino: int = random.choice(bases)
-    
+
     permitidos = tabela_hexadecimal[:2]
     numero_pergunta_antes_virgula: str = gera_numero(tamanho, permitidos, False)
     numero_pergunta_depois_virgula: str = ''
-    
+
     if dificuldade >= 4:
         numero_pergunta_depois_virgula = '.' + gera_numero(4, permitidos, True)
-    
+
     numero_pergunta: str = numero_pergunta_antes_virgula + numero_pergunta_depois_virgula
 
     if base_origem != 2:
