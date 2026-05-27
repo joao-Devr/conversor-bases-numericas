@@ -101,10 +101,18 @@ def parser_terminal() -> None:
     print('Saindo do modo Conversor de bases...')
 
 
-def parser_csv(arquivo: str) -> None:
+def parser_csv(arquivo_nome: str) -> None:
 
     import csv
-    with open(f"{arquivo}.csv", "r", newline="", encoding="utf-8") as arquivo:
+
+    with open("saida.csv", "w", newline="", encoding="utf-8") as arquivo:
+
+        escritor = csv.writer(arquivo, delimiter=";")
+        escritor.writerow(["valor", "base_origem", "resposta", "base_destino"])
+
+    arquivo.close()
+
+    with open(f"{arquivo_nome}.csv", "r", newline="", encoding="utf-8") as arquivo:
 
         leitor = csv.DictReader(arquivo, delimiter=";")
 
@@ -112,3 +120,5 @@ def parser_csv(arquivo: str) -> None:
             resposta_csv(linha["valor"], linha["base_origem"], linha["base_destino"])
 
         arquivo.close()
+
+    print("Respostas salvas em 'saida.csv'")
