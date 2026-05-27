@@ -10,7 +10,7 @@ while opcao != 4:
     print("| 3 - Modo Quiz")
     print("| 4 - Sair")
     print("~ ---------------------------------------------")
-    
+
     opcao = int(input("Insira uma das opções: "))
 
     match opcao:
@@ -25,6 +25,5 @@ while opcao != 4:
             print("")
         case 4:
             print("Saindo...")
-        case _:         
+        case _:
             print("\n| Opção inexistente!")
-
