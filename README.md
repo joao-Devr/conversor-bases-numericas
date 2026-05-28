@@ -35,7 +35,10 @@ conversor-bases-numericas/
 └── saida.csv      # Arquivo com as respostas para os valores passados pelo entrada.csv
 ``` 
 
-Vídeo explicativo sobre o projeto: LINK
+Vídeo explicativo sobre o projeto:
+```bash
+https://youtu.be/OzlzaqkNlks?feature=shared
+```
 
 ## Exemplos de Uso
 
